@@ -1,6 +1,8 @@
 package com.f12mobile;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.os.Bundle;
 import android.graphics.Color;
 import android.view.Gravity;
@@ -67,6 +69,15 @@ public class MainActivity extends Activity {
                 addNetwork("Navigation finished in "+(System.currentTimeMillis()-pageStartedAt)+" ms");
                 showPanel(currentPanel);
             }
+            @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
+                String u=request.getUrl().toString();
+                String scheme=request.getUrl().getScheme();
+                if (scheme!=null && (scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https"))) {
+                    String line="REQUEST "+request.getMethod()+" "+safeUrl(u)+(request.isForMainFrame()?" [document]":" [resource]");
+                    runOnUiThread(()->addNetwork(line));
+                }
+                return null;
+            }
             @Override public boolean shouldOverrideUrlLoading(WebView view,WebResourceRequest request) {
                 return false;
             }
@@ -89,6 +100,7 @@ public class MainActivity extends Activity {
         findViewById(R.id.performance).setOnClickListener(v->showPanel("Performance"));
         findViewById(R.id.responsive).setOnClickListener(v->showPanel("Responsive"));
         findViewById(R.id.settings).setOnClickListener(v->showPanel("Settings"));
+        findViewById(R.id.accessibility).setOnClickListener(v->showPanel("Accessibility"));
         actionButton.setOnClickListener(v->runPanelAction());
         secondaryButton.setOnClickListener(v->runSecondaryAction());
         web.loadUrl("https://example.com");
@@ -154,7 +166,7 @@ public class MainActivity extends Activity {
                 break;
             case "Network":
                 render(networkLines);
-                configure(null,"Clear",null,null);
+                configure(null,"Export log","Clear log","Clear");
                 break;
             case "Sources":
                 configure(null,"Refresh source",null,null);
@@ -162,7 +174,7 @@ public class MainActivity extends Activity {
                 break;
             case "Storage":
                 configure(null,"Read storage","Clear local storage","Clear storage");
-                runJs("(function(){var a=[];try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i),v=localStorage.getItem(k);a.push(k+' = '+(/token|pass|otp|secret|auth|key/i.test(k)?'[REDACTED]':String(v).slice(0,300)));}}catch(e){a.push('localStorage: '+e)};return 'Local storage\\n'+a.join('\\n')+'\\n\\nCookies (values hidden): '+document.cookie.split(';').map(function(x){return x.split('=')[0]+'=[hidden]'}).join('; ');})()", "Storage");
+                runJs("(function(){var a=[];try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i),v=localStorage.getItem(k);a.push(k+' = [value hidden; '+String(v).length+' chars]');}}catch(e){a.push('localStorage: '+e)};return 'Local storage\\n'+a.join('\\n')+'\\n\\nCookies (values hidden): '+document.cookie.split(';').map(function(x){return x.split('=')[0]+'=[hidden]'}).join('; ');})()", "Storage");
                 break;
             case "Performance":
                 configure(null,"Capture metrics",null,null);
@@ -175,6 +187,10 @@ public class MainActivity extends Activity {
             case "Settings":
                 configure(null,"Toggle JavaScript","Clear browser cache","Clear cache");
                 panel.setText("JavaScript: enabled\\nDOM storage: enabled\\nZoom controls: pinch / built-in\\nOnly inspect websites you are authorized to test. Secrets are masked on a best-effort basis.");
+                break;
+            case "Accessibility":
+                configure(null,"Refresh tree",null,null);
+                runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.value||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");
                 break;
         }
     }
@@ -200,8 +216,13 @@ public class MainActivity extends Activity {
                 }
                 break;
             case "Console": consoleLines.clear();render(consoleLines);break;
-            case "Network": networkLines.clear();render(networkLines);break;
+            case "Network":
+                ClipboardManager cm=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("F12 Mobile network log",joinLines(networkLines)));
+                Toast.makeText(this,"Network log copied",Toast.LENGTH_SHORT).show();
+                break;
             case "Sources": runJs("document.documentElement?document.documentElement.outerHTML:'No document'", "Page source");break;
+            case "Accessibility": runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.value||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");break;
             case "Storage": runJs("JSON.stringify({localStorageLength:localStorage.length,cookieNames:document.cookie.split(';').map(function(x){return x.split('=')[0]})},null,2)", "Storage summary");break;
             case "Performance": runJs("JSON.stringify({navigation:performance.getEntriesByType('navigation').length,resources:performance.getEntriesByType('resource').length,memory:performance.memory?{used:performance.memory.usedJSHeapSize,total:performance.memory.totalJSHeapSize}: 'not exposed'},null,2)", "Performance metrics");break;
             case "Responsive":
@@ -245,6 +266,7 @@ public class MainActivity extends Activity {
         try{Object o=new JSONTokener(value).nextValue();return String.valueOf(o);}
         catch(Exception e){return value;}
     }
+    private String joinLines(List<String> lines){ StringBuilder b=new StringBuilder(); for(String s:lines)b.append(s).append('\\n'); return b.toString(); }
     private void render(List<String> lines){
         StringBuilder b=new StringBuilder();
         for(String s:lines)b.append(s).append('\n');
