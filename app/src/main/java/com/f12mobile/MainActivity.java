@@ -211,6 +211,11 @@ public class MainActivity extends Activity {
                 runJs("(function(){var e=document.querySelector("+JSONObject.quote(sel)+");if(!e)return 'No matching element';e.innerHTML="+JSONObject.quote("<div>Edited by F12 Mobile</div>")+";return 'Selected element HTML replaced. Use the Styles panel for CSS.';})()","DOM edit");break;
         }
     }
+    private void render(List<String> lines){
+        StringBuilder b=new StringBuilder();
+        for(String line:lines)b.append(line).append('\n');
+        panel.setText(b.length()==0?"No entries yet.":b.toString());
+    }
     private void renderNetwork(){
         StringBuilder b=new StringBuilder("Tap Show latest detail for request headers and previews.\n\n");
         for(int i=networkEntries.size()-1;i>=0;i--){JSONObject o=networkEntries.get(i);b.append(o.optString("method")).append("  ").append(o.optInt("status")).append("  ").append(o.optString("url")).append("  ").append(o.optLong("durationMs")).append(" ms\n");}
