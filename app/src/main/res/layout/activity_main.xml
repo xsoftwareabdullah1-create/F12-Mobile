@@ -27,6 +27,7 @@
             <Button android:id="@+id/performance" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Performance"/>
             <Button android:id="@+id/responsive" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Responsive"/>
             <Button android:id="@+id/settings" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Settings"/>
+            <Button android:id="@+id/accessibility" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Accessibility"/>
         </LinearLayout>
     </HorizontalScrollView>
     <TextView android:id="@+id/panelTitle" android:layout_width="match_parent" android:layout_height="30dp"
