@@ -190,7 +190,7 @@ public class MainActivity extends Activity {
                 break;
             case "Accessibility":
                 configure(null,"Refresh tree",null,null);
-                runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.value||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");
+                runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");
                 break;
         }
     }
@@ -206,13 +206,13 @@ public class MainActivity extends Activity {
         switch(currentPanel){
             case "Elements":
                 if(input.isEmpty())input="body";
-                String selector=input.replace("\\","\\\\").replace("'","\\'");
-                runJs("(function(){var e=document.querySelector('"+selector+"');return e?e.outerHTML:'No element matches selector';})()", "Element");
+                String selector=JSONObject.quote(input);
+                runJs("(function(){var e=document.querySelector("+selector+");return e?e.outerHTML:'No element matches selector';})()", "Element");
                 break;
             case "Styles":
                 if(!input.isEmpty()){
-                    String css=input.replace("\\","\\\\").replace("</style","<\\/style");
-                    runJs("(function(){var s=document.getElementById('__f12_user_styles');if(!s){s=document.createElement('style');s.id='__f12_user_styles';document.head.appendChild(s);}s.textContent='"+css.replace("'","\\'")+"';return 'CSS applied';})()", "Styles");
+                    String css=JSONObject.quote(input);
+                    runJs("(function(){var s=document.getElementById('__f12_user_styles');if(!s){s=document.createElement('style');s.id='__f12_user_styles';document.head.appendChild(s);}s.textContent="+css+";return 'CSS applied';})()", "Styles");
                 }
                 break;
             case "Console": consoleLines.clear();render(consoleLines);break;
@@ -222,7 +222,7 @@ public class MainActivity extends Activity {
                 Toast.makeText(this,"Network log copied",Toast.LENGTH_SHORT).show();
                 break;
             case "Sources": runJs("document.documentElement?document.documentElement.outerHTML:'No document'", "Page source");break;
-            case "Accessibility": runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.value||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");break;
+            case "Accessibility": runJs("(function(){return Array.from(document.querySelectorAll('a,button,input,select,textarea,[role],[aria-label]')).slice(0,250).map(function(e){return (e.tagName.toLowerCase()+' | role='+(e.getAttribute('role')||'')+' | name='+(e.getAttribute('aria-label')||e.innerText||e.getAttribute('title')||'')+' | id='+e.id).replace(/\\s+/g,' ').slice(0,240)}).join('\\n')||'No accessible controls found';})()", "Accessibility tree (basic)");break;
             case "Storage": runJs("JSON.stringify({localStorageLength:localStorage.length,cookieNames:document.cookie.split(';').map(function(x){return x.split('=')[0]})},null,2)", "Storage summary");break;
             case "Performance": runJs("JSON.stringify({navigation:performance.getEntriesByType('navigation').length,resources:performance.getEntriesByType('resource').length,memory:performance.memory?{used:performance.memory.usedJSHeapSize,total:performance.memory.totalJSHeapSize}: 'not exposed'},null,2)", "Performance metrics");break;
             case "Responsive":
