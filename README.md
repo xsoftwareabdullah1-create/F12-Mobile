@@ -1,7 +1,7 @@
 # F12 Mobile
 
 <p align="center">
-  <img src="app/src/main/res/drawable/ic_f12_logo.xml" alt="F12 Mobile logo" width="104" />
+  <img src="assets/f12-mobile-logo.svg" alt="F12 Mobile logo" width="104" />
 </p>
 
 <h1 align="center">F12 Mobile</h1>
