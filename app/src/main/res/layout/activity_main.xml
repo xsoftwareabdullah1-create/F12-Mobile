@@ -1,51 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="#10141D">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
-        android:gravity="center_vertical" android:padding="5dp" android:background="#1B2230">
-        <Button android:id="@+id/back" android:layout_width="40dp" android:layout_height="40dp" android:text="‹" android:minWidth="0dp" android:padding="0dp"/>
-        <Button android:id="@+id/forward" android:layout_width="40dp" android:layout_height="40dp" android:text="›" android:minWidth="0dp" android:padding="0dp"/>
-        <EditText android:id="@+id/address" android:layout_width="0dp" android:layout_height="40dp"
-            android:layout_weight="1" android:singleLine="true" android:hint="https://example.com"
-            android:inputType="textUri" android:imeOptions="actionGo" android:textColor="#F3F6FC"
-            android:textColorHint="#8995A8" android:paddingHorizontal="10dp" android:background="#293345"/>
-        <Button android:id="@+id/go" android:layout_width="48dp" android:layout_height="40dp" android:text="GO" android:minWidth="0dp" android:padding="0dp"/>
-        <Button android:id="@+id/reload" android:layout_width="42dp" android:layout_height="40dp" android:text="↻" android:minWidth="0dp" android:padding="0dp"/>
+    android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F4F6FA">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="54dp" android:gravity="center_vertical" android:paddingHorizontal="6dp" android:background="#FFFFFF">
+        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_f12_logo" android:contentDescription="F12 Mobile logo" android:layout_marginEnd="5dp"/>
+        <Button android:id="@+id/back" android:layout_width="38dp" android:layout_height="40dp" android:text="‹" android:minWidth="0dp" android:padding="0dp"/>
+        <Button android:id="@+id/forward" android:layout_width="38dp" android:layout_height="40dp" android:text="›" android:minWidth="0dp" android:padding="0dp"/>
+        <EditText android:id="@+id/address" android:layout_width="0dp" android:layout_height="40dp" android:layout_weight="1" android:singleLine="true" android:hint="Search or enter URL" android:inputType="textUri" android:imeOptions="actionGo" android:textColor="#243247" android:textColorHint="#8793A5" android:paddingHorizontal="10dp" android:background="@drawable/bg_field" android:textSize="13sp"/>
+        <Button android:id="@+id/go" android:layout_width="44dp" android:layout_height="40dp" android:text="GO" android:minWidth="0dp" android:padding="0dp"/>
+        <Button android:id="@+id/reload" android:layout_width="38dp" android:layout_height="40dp" android:text="↻" android:minWidth="0dp" android:padding="0dp"/>
     </LinearLayout>
     <FrameLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:background="#FFFFFF">
         <WebView android:id="@+id/web" android:layout_width="match_parent" android:layout_height="match_parent"/>
     </FrameLayout>
-    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="46dp"
-        android:fillViewport="false" android:scrollbars="none" android:background="#1B2230">
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="horizontal">
-            <Button android:id="@+id/elements" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Elements"/>
-            <Button android:id="@+id/styles" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Styles"/>
-            <Button android:id="@+id/console" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Console"/>
-            <Button android:id="@+id/network" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Network"/>
-            <Button android:id="@+id/source" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Sources"/>
-            <Button android:id="@+id/storage" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Storage"/>
-            <Button android:id="@+id/performance" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Performance"/>
-            <Button android:id="@+id/responsive" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Responsive"/>
-            <Button android:id="@+id/settings" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Settings"/>
-            <Button android:id="@+id/accessibility" android:layout_width="wrap_content" android:layout_height="match_parent" android:text="Accessibility"/>
+    <HorizontalScrollView android:layout_width="match_parent" android:layout_height="48dp" android:fillViewport="false" android:scrollbars="none" android:background="#FFFFFF">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical">
+            <Button android:id="@+id/elements" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Elements"/>
+            <Button android:id="@+id/styles" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Styles"/>
+            <Button android:id="@+id/console" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Console"/>
+            <Button android:id="@+id/network" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Network"/>
+            <Button android:id="@+id/source" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Sources"/>
+            <Button android:id="@+id/storage" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Storage"/>
+            <Button android:id="@+id/performance" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Performance"/>
+            <Button android:id="@+id/responsive" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Responsive"/>
+            <Button android:id="@+id/settings" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Settings"/>
+            <Button android:id="@+id/accessibility" android:layout_width="wrap_content" android:layout_height="42dp" android:text="Accessibility"/>
         </LinearLayout>
     </HorizontalScrollView>
-    <TextView android:id="@+id/panelTitle" android:layout_width="match_parent" android:layout_height="30dp"
-        android:gravity="center_vertical" android:paddingHorizontal="12dp" android:text="INSPECTOR"
-        android:textColor="#79A8FF" android:textStyle="bold" android:background="#202A3A"/>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="horizontal" android:padding="5dp" android:background="#151C28">
-        <EditText android:id="@+id/commandInput" android:layout_width="0dp" android:layout_height="42dp"
-            android:layout_weight="1" android:visibility="gone" android:hint="Inspector command"
-            android:textColor="#F3F6FC" android:textColorHint="#8995A8" android:padding="8dp"
-            android:background="#293345" android:textSize="13sp"/>
+    <TextView android:id="@+id/panelTitle" android:layout_width="match_parent" android:layout_height="34dp" android:gravity="center_vertical" android:paddingHorizontal="14dp" android:text="INSPECTOR" android:textColor="#315EAA" android:textStyle="bold" android:textSize="11sp" android:letterSpacing="0.08" android:background="#EAF0F9"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="7dp" android:gravity="center_vertical" android:background="#FFFFFF">
+        <EditText android:id="@+id/commandInput" android:layout_width="0dp" android:layout_height="42dp" android:layout_weight="1" android:visibility="gone" android:hint="Inspector command" android:textColor="#243247" android:textColorHint="#8793A5" android:padding="9dp" android:background="@drawable/bg_field" android:textSize="13sp"/>
         <Button android:id="@+id/panelAction" android:layout_width="wrap_content" android:layout_height="42dp" android:visibility="gone" android:text="Run"/>
         <Button android:id="@+id/panelSecondary" android:layout_width="wrap_content" android:layout_height="42dp" android:visibility="gone" android:text="More"/>
     </LinearLayout>
-    <ScrollView android:id="@+id/panelScroll" android:layout_width="match_parent" android:layout_height="170dp"
-        android:background="#151C28">
-        <TextView android:id="@+id/panel" android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="12dp" android:textColor="#D8E0EE" android:textSize="12sp"
-            android:text="Load a page, then choose an inspector panel."/>
+    <ScrollView android:id="@+id/panelScroll" android:layout_width="match_parent" android:layout_height="176dp" android:background="#F8FAFD">
+        <TextView android:id="@+id/panel" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="13dp" android:textColor="#334155" android:textSize="12sp" android:fontFamily="monospace" android:text="Load a page, then choose an inspector panel."/>
     </ScrollView>
 </LinearLayout>
