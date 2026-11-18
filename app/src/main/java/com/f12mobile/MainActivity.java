@@ -266,7 +266,7 @@ public class MainActivity extends Activity {
         try{Object o=new JSONTokener(value).nextValue();return String.valueOf(o);}
         catch(Exception e){return value;}
     }
-    private String joinLines(List<String> lines){ StringBuilder b=new StringBuilder(); for(String s:lines)b.append(s).append('\\n'); return b.toString(); }
+    private String joinLines(List<String> lines){ StringBuilder b=new StringBuilder(); for(String s:lines)b.append(s).append('\n'); return b.toString(); }
     private void render(List<String> lines){
         StringBuilder b=new StringBuilder();
         for(String s:lines)b.append(s).append('\n');
