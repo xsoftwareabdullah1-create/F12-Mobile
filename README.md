@@ -11,18 +11,25 @@ F12 Mobile brings a compact browser and developer inspection workspace to Androi
 - [x] Android application project (Java + XML)
 - [x] Embedded WebView browser with address navigation
 - [x] Dark, desktop-inspired inspector layout
-- [x] DOM/HTML snapshot panel (limited to the first 14,000 characters)
-- [x] JavaScript console message capture
-- [x] Basic Fetch and XMLHttpRequest request-event logging
-- [x] Navigation history via Android Back
-- [x] Basic redaction of common sensitive query parameter values
-- [ ] Editable DOM tree and live CSS rule editor
-- [ ] Request detail drawer (headers, payload, response preview)
-- [ ] Breakpoints and JavaScript stepping debugger
-- [ ] Device emulation and responsive viewport controls
-- [ ] Storage/cookie inspector
-- [ ] Performance timeline and accessibility tree
-- [ ] Exportable HAR/session reports
+- [x] DOM snapshot and CSS-selector element inspection
+- [x] Temporary page CSS injection and removal
+- [x] JavaScript console capture
+- [x] Fetch/XHR event logging plus WebView resource request URL/method logging
+- [x] Network log export to clipboard
+- [x] Page source viewer
+- [x] Basic local-storage key and cookie-name inspection (values hidden)
+- [x] Basic navigation/resource timing metrics
+- [x] Responsive viewport-width simulation
+- [x] Basic accessibility-control outline (labels, roles and IDs)
+- [x] Browser back/forward/reload controls
+- [x] Best-effort masking of common sensitive query parameter values
+- [ ] Full editable DOM tree and computed-style cascade
+- [ ] Full request detail drawer (headers, payload, response preview)
+- [ ] JavaScript breakpoints and step debugger (not exposed by Android WebView's public API)
+- [ ] True multi-device emulation (DPR, user-agent and touch profiles)
+- [ ] IndexedDB and complete cookie management
+- [ ] Frame-by-frame performance timeline
+- [ ] HAR file export
 
 ## Build
 
@@ -58,11 +65,11 @@ The GitHub Actions workflow in `.github/workflows/android.yml` builds the debug 
 
 ## Network inspector scope and privacy
 
-The current Network panel records basic Fetch/XHR completion events from pages loaded inside this app. It does **not** capture every browser/network stack event, raw request or response bodies, or traffic from other apps.
+The Network panel records WebView resource request URLs/methods and basic Fetch/XHR completion events from pages loaded inside this app. It does **not** capture raw request/response bodies, sensitive headers, all response metadata, or traffic from other apps. Network log export currently copies a text log to the clipboard; it is not a HAR export.
 
 OTP values, passwords, authorization tokens, and other secrets are not an intended inspection output. Common sensitive query parameter values are redacted in the current event logger. This is best-effort masking, not a complete secret-detection system; do not use the app to collect other people's credentials or private messages. Use test accounts and systems you are authorized to debug.
 
-The JavaScript bridge is deliberately logging-only and exposes no SMS, contacts, account, filesystem, or device-control API. WebView is not a security boundary for untrusted websites; keep the app updated and use trusted sites while testing.
+No JavaScript bridge to native Android capabilities is exposed to pages. Cleartext HTTP is disabled in the app manifest by default. WebView is not a security boundary for untrusted websites; keep the app updated and use trusted sites while testing.
 
 ## Repository layout
 
